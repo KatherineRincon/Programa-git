@@ -70,18 +70,25 @@ func Factura() {
 	fmt.Printf("Cliente: %s\n", NombreCliente)
 	fmt.Printf("Fecha: %s\n", Fecha)
 	fmt.Println("Producto:",)
+
+
+	
 	for _, producto := range Productos {
 		pdf.CellFormat(50, 10, producto.Nombre, "1", 0, "L", false, 0, "")
 		pdf.CellFormat(40, 10, fmt.Sprintf("%.2f", producto.Precio), "1", 0, "C", false, 0, "")
 		pdf.CellFormat(30, 10, fmt.Sprintf("%d", producto.Cantidad), "1", 0, "C", false, 0, "")
 		pdf.CellFormat(30, 10, fmt.Sprintf("%.2f", producto.Total), "1", 1, "C", false, 0, "") // Nueva línea
 		ValorTotal += producto.Total
+		fmt.Printf("- %s: %d x %.2f = %.2f\n", producto.Nombre, producto.Cantidad, producto.Precio, producto.Total)
 	}
 
 	// Total de la factura
-	pdf.SetFont("Arial", "B", 12)
-	pdf.CellFormat(120, 10, "Valor Total", "1", 0, "R", false, 0, "")
-	pdf.CellFormat(30, 10, fmt.Sprintf("%.2f", ValorTotal), "1", 1, "C", false, 0, "")
+		pdf.SetFont("Arial", "B", 12)
+		pdf.CellFormat(120, 10, "Valor Total", "1", 0, "R", false, 0, "")
+		pdf.CellFormat(30, 10, fmt.Sprintf("%.2f", ValorTotal), "1", 1, "C", false, 0, "")
+	
+		// Mostrar el total general en consola
+		fmt.Printf("Valor Total: %.2f\n", ValorTotal)
 
 	// Guardar el PDF
 	err := pdf.OutputFileAndClose("Factura.pdf")
